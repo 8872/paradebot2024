@@ -29,16 +29,10 @@ public class ParadeOpMode extends LinearOpMode {
             double turn = gamepad1.right_trigger - gamepad1.left_trigger; // positive = right, negative = left
 
             double leftPower = power + turn;
-//            if (turn < 0) {
-//                leftPower += turn;
-//            }
             fl.setPower(leftPower);
             bl.setPower(leftPower);
 
             double rightPower = -power + turn;
-//            if (turn > 0) {
-//                rightPower -= turn;
-//            }
             fr.setPower(rightPower);
             br.setPower(rightPower);
         }
