@@ -13,6 +13,9 @@ public class ParadeOpMode extends LinearOpMode {
         DcMotor bl = hardwareMap.get(DcMotor.class, "bl");
         DcMotor br = hardwareMap.get(DcMotor.class, "br");
 
+        PowerLimiter leftLimiter = new PowerLimiter(0.005);
+        PowerLimiter rightLimiter = new PowerLimiter(0.005);
+
         waitForStart();
 
         while (opModeIsActive()) {
@@ -28,11 +31,11 @@ public class ParadeOpMode extends LinearOpMode {
             double power = -gamepad1.left_stick_y;
             double turn = gamepad1.right_trigger - gamepad1.left_trigger; // positive = right, negative = left
 
-            double leftPower = power + turn;
+            double leftPower = leftLimiter.limit(power + turn);
             fl.setPower(leftPower);
             bl.setPower(leftPower);
 
-            double rightPower = -power + turn;
+            double rightPower = rightLimiter.limit(-power + turn);
             fr.setPower(rightPower);
             br.setPower(rightPower);
         }
