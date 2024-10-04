@@ -15,6 +15,9 @@ public class ParadeOpMode extends LinearOpMode {
         DcMotor bl = hardwareMap.get(DcMotor.class, "bl");
         DcMotor br = hardwareMap.get(DcMotor.class, "br");
 
+        PowerLimiter leftLimiter = new PowerLimiter(0.005);
+        PowerLimiter rightLimiter = new PowerLimiter(0.005);
+
         Gamepad currentGamepad1 = new Gamepad();
         Gamepad previousGamepad1 = new Gamepad();
         boolean slowMode = false;
@@ -57,11 +60,11 @@ public class ParadeOpMode extends LinearOpMode {
             }
 
 
-            double leftPower = power + turn;
+            double leftPower = leftLimiter.limit(power + turn);
             fl.setPower(leftPower);
             bl.setPower(leftPower);
 
-            double rightPower = -power + turn;
+            double rightPower = rightLimiter.limit(-power + turn);
             fr.setPower(rightPower);
             br.setPower(rightPower);
 
