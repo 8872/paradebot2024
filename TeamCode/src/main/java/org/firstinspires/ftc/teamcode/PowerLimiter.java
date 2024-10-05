@@ -31,15 +31,15 @@ public class PowerLimiter {
 //        return power;
 //    }
     public double limit(double power) {
-        double dt = timer.now(TimeUnit.SECONDS);
-        double acceleration = power - lastPower;
-        acceleration /= dt;
+        double dt = timer.seconds();
+        double acceleration = (power - lastPower) / dt;
         if (acceleration > accelerationLimit) {
             power = lastPower + accelerationLimit;
         } else if (acceleration < -accelerationLimit) {
             power = lastPower - accelerationLimit;
         }
         lastPower = power;
+        timer.reset();
         return power;
     }
     public void setAccelerationLimit(double accelerationLimit) {
